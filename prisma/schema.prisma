@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  clerkId       String         @unique
+  email         String         @unique
+  firstName     String?
+  lastName      String?
+  avatarUrl     String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  actionItems   ActionItem[]
+  conversations Conversation[]
+  decisions     Decision[]
+  questions     Question[]
+  workspaces    Workspace[]
+}
+
+model Workspace {
+  id            String         @id @default(cuid())
+  name          String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  userId        String
+  actionItems   ActionItem[]
+  conversations Conversation[]
+  decisions     Decision[]
+  questions     Question[]
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id          String       @id @default(cuid())
+  title       String
+  content     String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  workspaceId String
+  userId      String
+  actionItems ActionItem[]
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  decisions   Decision[]
+  questions   Question[]
+}
+
+model Decision {
+  id             String        @id @default(cuid())
+  title          String
+  summary        String
+  status         String        @default("pending")
+  confidence     Float         @default(0.5)
+  source         String        @default("manual")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  conversationId String?
+  workspaceId    String
+  userId         String
+  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace      Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model ActionItem {
+  id             String        @id @default(cuid())
+  title          String
+  status         String        @default("pending")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  conversationId String?
+  workspaceId    String
+  userId         String
+  description    String        @default("")
+  priority       String        @default("medium")
+  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace      Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Question {
+  id             String        @id @default(cuid())
+  question       String
+  status         String        @default("open")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  conversationId String?
+  workspaceId    String
+  userId         String
+  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace      Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}

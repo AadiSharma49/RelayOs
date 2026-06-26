@@ -1,0 +1,268 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Theme definition — values are CSS variables resolved at runtime */
+@theme inline {
+  --color-background: var(--tw-bg);
+  --color-foreground: var(--tw-fg);
+  --color-card: var(--tw-cd);
+  --color-card-foreground: var(--tw-cd-fg);
+  --color-popover: var(--tw-po);
+  --color-popover-foreground: var(--tw-po-fg);
+  --color-primary: var(--tw-pr);
+  --color-primary-foreground: var(--tw-pr-fg);
+  --color-secondary: var(--tw-sc);
+  --color-secondary-foreground: var(--tw-sc-fg);
+  --color-muted: var(--tw-mu);
+  --color-muted-foreground: var(--tw-mu-fg);
+  --color-accent: var(--tw-ac);
+  --color-accent-foreground: var(--tw-ac-fg);
+  --color-destructive: var(--tw-ds);
+  --color-destructive-foreground: var(--tw-ds-fg);
+  --color-border: var(--tw-bd);
+  --color-input: var(--tw-in);
+  --color-ring: var(--tw-rg);
+  --color-success: var(--tw-scs);
+  --color-success-foreground: var(--tw-scs-fg);
+  --color-success-bg: var(--tw-scs-bg);
+  --color-warning: var(--tw-wn);
+  --color-warning-foreground: var(--tw-wn-fg);
+  --color-warning-bg: var(--tw-wn-bg);
+  --color-error: var(--tw-er);
+  --color-error-foreground: var(--tw-er-fg);
+  --color-error-bg: var(--tw-er-bg);
+  --color-info: var(--tw-if);
+  --color-info-foreground: var(--tw-if-fg);
+  --color-info-bg: var(--tw-if-bg);
+
+  --radius: 0.5rem;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ── Light mode: warm premium SaaS ── */
+:root {
+  --tw-bg: hsl(40 20% 99%);
+  --tw-fg: hsl(220 20% 8%);
+  --tw-cd: hsl(40 15% 98%);
+  --tw-cd-fg: hsl(220 20% 8%);
+  --tw-po: hsl(0 0% 100%);
+  --tw-po-fg: hsl(220 15% 12%);
+  --tw-pr: hsl(217.2 91.2% 59.8%);
+  --tw-pr-fg: hsl(0 0% 100%);
+  --tw-sc: hsl(210 20% 96%);
+  --tw-sc-fg: hsl(220 20% 15%);
+  --tw-mu: hsl(210 15% 94%);
+  --tw-mu-fg: hsl(220 12% 40%);
+  --tw-ac: hsl(210 20% 96%);
+  --tw-ac-fg: hsl(220 20% 15%);
+  --tw-ds: hsl(0 72% 51%);
+  --tw-ds-fg: hsl(0 0% 100%);
+  --tw-bd: hsl(220 15% 88%);
+  --tw-in: hsl(220 15% 88%);
+  --tw-rg: hsl(217.2 91.2% 59.8%);
+  --tw-scs: hsl(142 76% 36%);
+  --tw-scs-fg: hsl(0 0% 100%);
+  --tw-scs-bg: hsl(142 60% 92%);
+  --tw-wn: hsl(38 92% 50%);
+  --tw-wn-fg: hsl(0 0% 100%);
+  --tw-wn-bg: hsl(38 80% 90%);
+  --tw-er: hsl(0 72% 51%);
+  --tw-er-fg: hsl(0 0% 100%);
+  --tw-er-bg: hsl(0 70% 92%);
+  --tw-if: hsl(200 100% 45%);
+  --tw-if-fg: hsl(0 0% 100%);
+  --tw-if-bg: hsl(200 70% 90%);
+}
+
+/* ── Dark mode ── */
+.dark {
+  --tw-bg: hsl(240 10% 3.9%);
+  --tw-fg: hsl(0 0% 98%);
+  --tw-cd: hsl(240 10% 5.9%);
+  --tw-cd-fg: hsl(0 0% 98%);
+  --tw-po: hsl(240 10% 5.9%);
+  --tw-po-fg: hsl(0 0% 98%);
+  --tw-pr: hsl(217.2 91.2% 59.8%);
+  --tw-pr-fg: hsl(222.2 47.4% 11.2%);
+  --tw-sc: hsl(240 3.7% 15.9%);
+  --tw-sc-fg: hsl(0 0% 98%);
+  --tw-mu: hsl(240 3.7% 15.9%);
+  --tw-mu-fg: hsl(240 5% 64.9%);
+  --tw-ac: hsl(240 3.7% 15.9%);
+  --tw-ac-fg: hsl(0 0% 98%);
+  --tw-ds: hsl(0 62.8% 30.6%);
+  --tw-ds-fg: hsl(0 0% 98%);
+  --tw-bd: hsl(240 3.7% 15.9%);
+  --tw-in: hsl(240 3.7% 15.9%);
+  --tw-rg: hsl(217.2 91.2% 59.8%);
+  --tw-scs: hsl(142 76% 36%);
+  --tw-scs-fg: hsl(0 0% 98%);
+  --tw-scs-bg: hsl(142 70% 12%);
+  --tw-wn: hsl(38 92% 50%);
+  --tw-wn-fg: hsl(0 0% 98%);
+  --tw-wn-bg: hsl(38 60% 12%);
+  --tw-er: hsl(0 72% 51%);
+  --tw-er-fg: hsl(0 0% 98%);
+  --tw-er-bg: hsl(0 60% 12%);
+  --tw-if: hsl(200 100% 50%);
+  --tw-if-fg: hsl(0 0% 98%);
+  --tw-if-bg: hsl(200 70% 12%);
+}
+
+* {
+  border-color: var(--tw-bd);
+}
+
+body {
+  background-color: var(--tw-bg);
+  color: var(--tw-fg);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* === Status Badge Utilities === */
+.badge-success {
+  background-color: var(--tw-scs-bg);
+  color: var(--tw-scs);
+  border-color: transparent;
+}
+.badge-warning {
+  background-color: var(--tw-wn-bg);
+  color: var(--tw-wn);
+  border-color: transparent;
+}
+.badge-error {
+  background-color: var(--tw-er-bg);
+  color: var(--tw-er);
+  border-color: transparent;
+}
+.badge-info {
+  background-color: var(--tw-if-bg);
+  color: var(--tw-if);
+  border-color: transparent;
+}
+
+/* Error/success banners */
+.banner-error {
+  background-color: var(--tw-er-bg);
+  border-color: hsl(var(--tw-er) / 0.3);
+  color: var(--tw-er);
+}
+.banner-success {
+  background-color: var(--tw-scs-bg);
+  border-color: hsl(var(--tw-scs) / 0.3);
+  color: var(--tw-scs);
+}
+
+/* === Sunrise light mode — premium SaaS glow === */
+.sunrise-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%, hsl(210 60% 92% / 0.6), transparent 70%),
+    radial-gradient(ellipse 50% 35% at 85% 10%, hsl(30 70% 88% / 0.25), transparent 60%),
+    radial-gradient(ellipse 40% 30% at 15% 15%, hsl(200 60% 90% / 0.2), transparent 50%),
+    linear-gradient(180deg, hsl(210 40% 98%) 0%, var(--tw-bg) 35%, var(--tw-bg) 100%);
+}
+:root .sunrise-glow { opacity: 1; }
+.dark .sunrise-glow { opacity: 0; }
+
+/* Horizon line */
+.sunrise-horizon {
+  position: fixed;
+  top: 30vh;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent 10%, hsl(30 60% 85% / 0.3) 50%, transparent 90%);
+}
+:root .sunrise-horizon { opacity: 1; }
+.dark .sunrise-horizon { opacity: 0; }
+
+/* === Animations === */
+@keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fade-in-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+@keyframes float { 0%,100% { transform: translateY(0) rotate(0deg); } 33% { transform: translateY(-10px) rotate(1deg); } 66% { transform: translateY(5px) rotate(-1deg); } }
+@keyframes pulse-glow { 0%,100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.05); } }
+@keyframes drift { 0% { transform: translate(0,0); } 25% { transform: translate(5px,-5px); } 50% { transform: translate(-3px,3px); } 75% { transform: translate(2px,-2px); } 100% { transform: translate(0,0); } }
+@keyframes noise { 0% { transform: translate(0,0); } 10% { transform: translate(-5%,-5%); } 20% { transform: translate(-10%,5%); } 30% { transform: translate(5%,-10%); } 40% { transform: translate(-5%,15%); } 50% { transform: translate(-10%,5%); } 60% { transform: translate(15%,0); } 70% { transform: translate(0,10%); } 80% { transform: translate(-15%,0); } 90% { transform: translate(10%,5%); } 100% { transform: translate(5%,0); } }
+@keyframes marquee { from { transform: translateX(0%); } to { transform: translateX(-50%); } }
+.animate-marquee { animation: marquee 15s linear infinite; }
+.animate-marquee-reverse { animation: marquee 15s linear infinite; animation-direction: reverse; }
+.animate-marquee:hover { animation-play-state: paused; }
+.animate-marquee-reverse:hover { animation-play-state: paused; }
+
+.animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
+.animate-fade-in-up { animation: fade-in-up 0.7s ease-out forwards; }
+.animate-shimmer { background: linear-gradient(90deg, transparent, var(--tw-mu) / 0.3, transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-drift { animation: drift 8s ease-in-out infinite; }
+
+/* Noise texture overlay */
+.noise-overlay::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.02;
+  animation: noise 0.5s steps(4) infinite;
+}
+.dark .noise-overlay::before { opacity: 0.03; }
+
+.magnetic-btn { transition: transform 0.2s cubic-bezier(0.21, 0.47, 0.32, 0.98); }
+
+/* Glow effect for CTAs */
+.glow-cta { position: relative; }
+.glow-cta::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--tw-pr) / 0.4, var(--tw-pr) / 0.1, var(--tw-pr) / 0.4);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s;
+  filter: blur(8px);
+}
+.glow-cta:hover::before { opacity: 1; }
+
+/* Cursor spotlight */
+.spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(circle, var(--tw-pr) / 0.08, transparent 70%);
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+:root .spotlight { background: radial-gradient(circle, var(--tw-pr) / 0.04, transparent 70%); }
+.dark .spotlight { background: radial-gradient(circle, var(--tw-pr) / 0.08, transparent 70%); }
+
+/* React Flow overrides */
+.react-flow__background { background-color: transparent !important; }
+.react-flow__pane { background-color: transparent !important; }
+.react-flow__minimap { border-color: var(--tw-bd) !important; background-color: var(--tw-cd) !important; }
+.react-flow__controls { border-color: var(--tw-bd) !important; box-shadow: var(--tw-fg) / 0.05 0px 1px 3px !important; }
+.react-flow__controls button { background-color: var(--tw-cd) !important; border-color: var(--tw-bd) !important; color: var(--tw-fg) !important; }
+.react-flow__controls button:hover { background-color: var(--tw-ac) !important; }
+.react-flow__attribution { display: none !important; }
