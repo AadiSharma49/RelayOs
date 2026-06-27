@@ -11,6 +11,9 @@ import { CreateDecisionButton } from "./decisions"
 import { CreateActionItemButton } from "./action-items"
 import { CreateQuestionButton } from "./questions"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: "Workspace",
   description: "Workspace details",

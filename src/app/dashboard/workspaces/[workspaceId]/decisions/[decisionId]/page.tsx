@@ -7,6 +7,9 @@ import { Icons } from "@/lib/icons"
 import { getOrCreateUser } from "@/lib/api-utils"
 import { DecisionActions } from "./actions"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: "Decision",
   description: "View decision",

@@ -6,6 +6,9 @@ import { Icons } from "@/lib/icons"
 import { CreateWorkspaceButton } from "./components"
 import { getOrCreateUser } from "@/lib/api-utils"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: "Workspaces",
   description: "Manage your workspaces",

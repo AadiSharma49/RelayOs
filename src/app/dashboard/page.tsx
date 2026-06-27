@@ -4,6 +4,9 @@ import { prisma } from "@/lib/prisma"
 import { Icons } from "@/lib/icons"
 import { getOrCreateUser } from "@/lib/api-utils"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Your workspace overview",

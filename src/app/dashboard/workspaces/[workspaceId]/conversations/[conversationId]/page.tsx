@@ -8,6 +8,9 @@ import { getOrCreateUser } from "@/lib/api-utils"
 import { DeleteConversationButton } from "./delete-button"
 import { ExtractReviewButton } from "./extract-review"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: "Conversation",
   description: "View conversation",

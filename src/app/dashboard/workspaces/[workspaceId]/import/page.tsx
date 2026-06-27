@@ -6,6 +6,9 @@ import { Icons } from "@/lib/icons"
 import { getOrCreateUser } from "@/lib/api-utils"
 import { ImportConversationForm } from "./components"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: "Import Conversation",
   description: "Import a conversation into your workspace",
