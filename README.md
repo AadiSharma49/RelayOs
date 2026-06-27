@@ -109,24 +109,24 @@ One platform to remember every important decision.
 ## Features
 
 ### Completed
-- ✅ Clerk authentication with automatic user sync
-- ✅ Multi-workspace system with ownership validation
-- ✅ Conversation import and viewer
-- ✅ AI extraction engine (provider-based)
-- ✅ Decision CRUD with status tracking
-- ✅ Action Items with priority
-- ✅ Questions tracking
-- ✅ Global search across all workspaces
-- ✅ Dashboard with system diagnostics
-- ✅ AI provider health monitoring
-- ✅ Multi-user data isolation
+-  Clerk authentication with automatic user sync
+-  Multi-workspace system with ownership validation
+-  Conversation import and viewer
+-  AI extraction engine (provider-based)
+-  Decision CRUD with status tracking
+-  Action Items with priority
+-  Questions tracking
+-  Global search across all workspaces
+-  Dashboard with system diagnostics
+-  AI provider health monitoring
+-  Multi-user data isolation
 
 ### In Progress
-- 🚧 Browser Extension (planned)
-- 🚧 VS Code integration (planned)
-- 🚧 Memory Chat
-- 🚧 Semantic search
-- 🚧 Decision conflict detection
+-  Browser Extension (planned)
+-  VS Code integration (planned)
+-  Memory Chat
+-  Semantic search
+-  Decision conflict detection
 
 ---
 
@@ -243,21 +243,21 @@ npm run dev
 
 ## Future Roadmap
 
-### Phase 1: Foundation ✅
+### Phase 1: Foundation 
 - Auth, Database, Workspaces, Conversations, AI Extraction
 
-### Phase 2: Intelligence 🚧
+### Phase 2: Intelligence 
 - Semantic search
 - Decision chat
 - Memory consolidation
 
-### Phase 3: Extensions 📋
+### Phase 3: Extensions 
 - Browser Extension (Chrome/Firefox)
 - VS Code extension
 - Slack bot
 - CLI tool
 
-### Phase 4: Agents 🤖
+### Phase 4: Agents 
 - Proactive decision suggestions
 - Conflict detection
 - Automated decision documentation
