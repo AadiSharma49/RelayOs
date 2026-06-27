@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+import { Metadata, Route } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/prisma"
@@ -136,7 +136,7 @@ export default async function DecisionDetailPage({
               <Icons.messageSquare className="h-4 w-4 text-muted-foreground" />
               <span className="text-muted-foreground">From:</span>
               <Link
-                href={`/dashboard/workspaces/${workspaceId}/conversations/${decision.conversation.id}`}
+                href={`/dashboard/workspaces/${workspaceId}/conversations/${decision.conversation.id}` as Route}
                 className="font-medium text-primary hover:underline"
               >
                 {decision.conversation.title}

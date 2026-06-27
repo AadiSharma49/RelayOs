@@ -163,8 +163,8 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.2, ease: EASING }}
-            className="mt-26"
+            transition={{ delay: 0.45, duration: 0.2, ease: EASING }}
+            className="mt-25"
           >
             <p className="text-xs text-muted-foreground mb-4 uppercase tracking-widest">WORKS WITH YOUR AI ECOSYSTEM</p>
             <TrustLogos />

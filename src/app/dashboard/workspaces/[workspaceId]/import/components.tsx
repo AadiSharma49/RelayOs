@@ -41,7 +41,7 @@ export function ImportConversationForm({
       }
       const conversation = await res.json()
       router.push(
-        `/dashboard/workspaces/${workspaceId}/conversations/${conversation.id}`
+        `/dashboard/workspaces/${workspaceId}/conversations/${conversation.id}` as any
       )
       router.refresh()
     } catch (err) {

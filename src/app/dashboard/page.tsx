@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+import { Metadata, Route } from "next"
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 import { Icons } from "@/lib/icons"
@@ -91,7 +91,7 @@ function StatCard({
   href: string
 }) {
   return (
-    <Link href={href}>
+    <Link href={href as Route}>
       <div className="rounded-xl border bg-card p-5 transition-all hover:shadow-md">
         <div className="flex items-center justify-between">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
