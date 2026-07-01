@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/lib/icons"
+import { Badge } from "@/components/ui/badge"
 import { getOrCreateUser } from "@/lib/api-utils"
 import { WorkspaceActions } from "./components"
 import { ImportConversationButton } from "./import"
@@ -59,11 +60,21 @@ export default async function WorkspaceDetailPage({
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <ImportConversationButton workspaceId={workspace.id} />
           <CreateDecisionButton workspaceId={workspace.id} />
           <CreateActionItemButton workspaceId={workspace.id} />
           <CreateQuestionButton workspaceId={workspace.id} />
+          <Link
+            href={`/dashboard/workspaces/${workspace.id}/memory-chat`}
+            className="inline-flex items-center gap-1.5 rounded-lg border bg-card px-3 py-2 text-sm font-medium hover:bg-accent transition-colors"
+          >
+            <Icons.brain className="h-4 w-4" />
+            <span>Memory Chat</span>
+            <Badge variant="secondary" className="text-[9px] px-1 py-0">
+              Beta
+            </Badge>
+          </Link>
           <WorkspaceActions workspaceId={workspace.id} workspaceName={workspace.name} />
         </div>
       </div>

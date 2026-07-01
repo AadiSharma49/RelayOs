@@ -7,29 +7,29 @@ import { AnimatedSection } from "./animated-section"
 
 const FAQS = [
   {
-    q: "What makes RelayOS different from AI chat memory?",
-    a: "AI chat memory is session-level and fragmented. RelayOS is a structured decision memory layer that works across all your AI tools — ChatGPT, Claude, Cursor, and more. It extracts, organizes, and connects decisions so you can search, revisit, and reuse them across projects and teams."
+    q: "What does RelayOS do?",
+    a: "It captures conversations from AI tools like ChatGPT and Claude, extracts decisions, action items, and questions, and makes them searchable. Think of it as a decision memory layer for your AI chats."
   },
   {
-    q: "Can RelayOS work with ChatGPT, Claude, and Cursor?",
-    a: "Yes. RelayOS connects to ChatGPT, Claude, Gemini, Cursor, Notion, Discord, and more. Conversations are automatically imported and processed through our Decision Extraction pipeline to identify key decisions, reasoning, and action items."
+    q: "Which AI tools does it support?",
+    a: "You can paste text from any AI tool — ChatGPT, Claude, Gemini, Cursor, Notion, Discord, and more. Import is manual copy-paste for now."
   },
   {
-    q: "How does Decision Extraction work?",
-    a: "When a conversation is imported, our AI analyzes the dialogue to identify decision points, alternatives considered, supporting rationale, and outcomes. Each decision is then stored with metadata, relationships to other decisions, and full context — making it searchable and reusable."
-  },
-  {
-    q: "Can teams collaborate inside RelayOS?",
-    a: "Absolutely. RelayOS is built for teams. Decisions can be shared, annotated, and linked across workspaces. Team members can search the collective decision history, follow decision threads, and ensure everyone stays aligned on key choices."
+    q: "How does the AI extraction work?",
+    a: "After you import a conversation, RelayOS analyzes it and identifies key decisions, action items, and open questions. You review each item before saving, so nothing gets stored without your approval."
   },
   {
     q: "Is my data private?",
-    a: "Privacy is core to RelayOS. Your data is encrypted at rest and in transit. We never train on your data. Enterprise-grade security with SOC 2 compliance, role-based access controls, and the ability to self-host on your own infrastructure."
+    a: "Yes. Your conversations and extracted data are stored in your own PostgreSQL database. We do not train on your data or share it with third parties."
   },
   {
-    q: "What is the long-term vision of RelayOS?",
-    a: "We're building the universal memory layer for human and AI decisions. Future capabilities include autonomous agents that proactively surface relevant decisions, AI-powered decision impact analysis, and deep integrations with project management, documentation, and code review tools."
-  }
+    q: "Do I need to install anything?",
+    a: "No. RelayOS is a web app. Sign up with Clerk, create a workspace, paste a conversation, and start extracting decisions."
+  },
+  {
+    q: "What's coming next?",
+    a: "We're working on batch imports, real-time sync, semantic search, and a knowledge graph. The basics work today — the rest is on the way."
+  },
 ]
 
 function AccordionItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boolean; onToggle: () => void }) {
@@ -75,16 +75,16 @@ export function FAQSection() {
         <AnimatedSection>
           <div className="text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Want to Learn More?
+              Frequently asked questions
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Here are answers to common questions.
+              Straight answers about what RelayOS does today.
             </p>
           </div>
         </AnimatedSection>
 
         <AnimatedSection delay={0.2}>
-          <div className="mt-12 rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-sm">
+          <div className="mt-12 rounded-xl border bg-card p-6 sm:p-8">
             {FAQS.map((faq, i) => (
               <AccordionItem
                 key={i}

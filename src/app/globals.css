@@ -78,11 +78,11 @@
 
 /* ── Dark mode ── */
 .dark {
-  --tw-bg: hsl(240 10% 3.9%);
+  --tw-bg: hsl(240 15% 4.5%);
   --tw-fg: hsl(0 0% 98%);
-  --tw-cd: hsl(240 10% 5.9%);
+  --tw-cd: hsl(240 10% 6%);
   --tw-cd-fg: hsl(0 0% 98%);
-  --tw-po: hsl(240 10% 5.9%);
+  --tw-po: hsl(240 10% 6%);
   --tw-po-fg: hsl(0 0% 98%);
   --tw-pr: hsl(217.2 91.2% 59.8%);
   --tw-pr-fg: hsl(222.2 47.4% 11.2%);
@@ -120,6 +120,144 @@ body {
   color: var(--tw-fg);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
+
+/* === Gradient text === */
+.text-gradient-hero {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === Glassmorphism card === */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+}
+
+/* === Hero background orbs === */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+  pointer-events: none;
+  will-change: transform;
+}
+.hero-orb-1 {
+  width: 600px;
+  height: 600px;
+  background: #1a1040;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: drift 12s ease-in-out infinite;
+}
+.hero-orb-2 {
+  width: 400px;
+  height: 400px;
+  background: #1e3a5f;
+  top: -100px;
+  left: 30%;
+  animation: drift 16s ease-in-out infinite reverse;
+}
+.hero-orb-3 {
+  width: 300px;
+  height: 300px;
+  background: #2d1b4e;
+  top: -50px;
+  right: 20%;
+  animation: drift 10s ease-in-out infinite;
+}
+
+/* === CTA gradient border === */
+.cta-gradient-border {
+  position: relative;
+  display: inline-block;
+  border-radius: 0.5rem;
+  padding: 2px;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #60a5fa);
+  background-size: 200% auto;
+  animation: gradient-shift 4s ease infinite;
+}
+.cta-gradient-border > * {
+  border-radius: inherit;
+  background: var(--tw-bg);
+}
+.cta-gradient-border:hover {
+  filter: drop-shadow(0 0 12px rgba(96, 165, 250, 0.35));
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* === Step connector line === */
+.step-connector {
+  position: absolute;
+  left: 23px;
+  top: 48px;
+  bottom: -32px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--tw-pr) / 0.4, transparent);
+  transform-origin: top;
+}
+.step-connector-last {
+  display: none;
+}
+
+/* === Use case colored borders === */
+.use-case-border-blue { border-left: 3px solid #60a5fa; }
+.use-case-border-purple { border-left: 3px solid #a78bfa; }
+.use-case-border-orange { border-left: 3px solid #fb923c; }
+.use-case-border-green { border-left: 3px solid #4ade80; }
+
+/* === Icon glow rings === */
+.icon-glow-blue { filter: drop-shadow(0 0 6px rgba(96, 165, 250, 0.4)); }
+.icon-glow-purple { filter: drop-shadow(0 0 6px rgba(167, 139, 250, 0.4)); }
+.icon-glow-orange { filter: drop-shadow(0 0 6px rgba(251, 146, 60, 0.4)); }
+.icon-glow-green { filter: drop-shadow(0 0 6px rgba(74, 222, 128, 0.4)); }
+
+/* === Flow diagram nodes === */
+.flow-node {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+}
+
+/* === Memory Chat scrollbar styling === */
+.messages-area::-webkit-scrollbar {
+  width: 6px;
+}
+.messages-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+.messages-area::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+.messages-area::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* === React Flow overrides === */
+.react-flow__background { background-color: transparent !important; }
+.react-flow__pane { background-color: transparent !important; }
+.react-flow__minimap { border-color: var(--tw-bd) !important; background-color: var(--tw-cd) !important; }
+.react-flow__controls { border-color: var(--tw-bd) !important; box-shadow: var(--tw-fg) / 0.05 0px 1px 3px !important; }
+.react-flow__controls button { background-color: var(--tw-cd) !important; border-color: var(--tw-bd) !important; color: var(--tw-fg) !important; }
+.react-flow__controls button:hover { background-color: var(--tw-ac) !important; }
+.react-flow__attribution { display: none !important; }
 
 /* === Status Badge Utilities === */
 .badge-success {
@@ -197,6 +335,7 @@ body {
 @keyframes float { 0%,100% { transform: translateY(0) rotate(0deg); } 33% { transform: translateY(-10px) rotate(1deg); } 66% { transform: translateY(5px) rotate(-1deg); } }
 @keyframes pulse-glow { 0%,100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.05); } }
 @keyframes drift { 0% { transform: translate(0,0); } 25% { transform: translate(5px,-5px); } 50% { transform: translate(-3px,3px); } 75% { transform: translate(2px,-2px); } 100% { transform: translate(0,0); } }
+@keyframes gradient-shift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 @keyframes noise { 0% { transform: translate(0,0); } 10% { transform: translate(-5%,-5%); } 20% { transform: translate(-10%,5%); } 30% { transform: translate(5%,-10%); } 40% { transform: translate(-5%,15%); } 50% { transform: translate(-10%,5%); } 60% { transform: translate(15%,0); } 70% { transform: translate(0,10%); } 80% { transform: translate(-15%,0); } 90% { transform: translate(10%,5%); } 100% { transform: translate(5%,0); } }
 @keyframes marquee { from { transform: translateX(0%); } to { transform: translateX(-50%); } }
 .animate-marquee { animation: marquee 15s linear infinite; }

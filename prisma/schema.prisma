@@ -7,6 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ChatRole {
+  user
+  assistant
+}
+
 model User {
   id            String         @id @default(cuid())
   clerkId       String         @unique
@@ -21,6 +26,7 @@ model User {
   decisions     Decision[]
   questions     Question[]
   workspaces    Workspace[]
+  chatMessages  ChatMessage[]
 }
 
 model Workspace {
@@ -33,6 +39,7 @@ model Workspace {
   conversations Conversation[]
   decisions     Decision[]
   questions     Question[]
+  chatMessages  ChatMessage[]
   user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -96,4 +103,16 @@ model Question {
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   workspace      Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model ChatMessage {
+  id          String    @id @default(cuid())
+  workspaceId String
+  userId      String
+  role        ChatRole
+  content     String    @db.Text
+  sources     Json?
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 }

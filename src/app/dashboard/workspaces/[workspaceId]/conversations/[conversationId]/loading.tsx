@@ -1,4 +1,1 @@
-import { PageLoading } from "@/components/loading"
-export default function ConversationLoading() {
-  return <PageLoading />
-}
+import { ConversationSkeleton } from "@/components/loading"; export default ConversationSkeleton;

@@ -8,12 +8,12 @@ import type { Icon } from "@/lib/icons"
 import { AnimatedSection } from "./animated-section"
 
 const iconMap: Record<string, Icon> = {
-  Brain: Icons.brain,
+  MessageSquare: Icons.messageSquare,
+  GitBranch: Icons.gitBranch,
+  CheckCircle: Icons.checkCircle,
+  Search: Icons.search,
+  FolderKanban: Icons.folderKanban,
   BarChart3: Icons.barChart,
-  Users: Icons.users,
-  Shield: Icons.shield,
-  Plug: Icons.plug,
-  Zap: Icons.zap,
 }
 
 const containerVariants = {
@@ -21,43 +21,43 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.12,
+      staggerChildren: 0.1,
     },
   },
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
+      duration: 0.5,
       ease: [0.21, 0.47, 0.32, 0.98] as [number, number, number, number],
     },
   },
 }
 
+const iconColors: Record<string, string> = {
+  MessageSquare: "from-blue-500/20 to-blue-500/5",
+  GitBranch: "from-violet-500/20 to-violet-500/5",
+  CheckCircle: "from-emerald-500/20 to-emerald-500/5",
+  Search: "from-amber-500/20 to-amber-500/5",
+  FolderKanban: "from-cyan-500/20 to-cyan-500/5",
+  BarChart3: "from-rose-500/20 to-rose-500/5",
+}
+
 export function Features() {
   return (
     <section id="features" className="relative overflow-hidden py-24 sm:py-32">
-      {/* Subtle background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />
-      </div>
-
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Everything You Need to{" "}
-              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                Decide Better
-              </span>
+              Built for how you actually work
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Powerful features designed to help your team make smarter, faster
-              decisions.
+              Import, extract, and search decisions from your AI conversations.
             </p>
           </div>
         </AnimatedSection>
@@ -71,20 +71,23 @@ export function Features() {
         >
           {FEATURES.map((feature) => {
             const Icon = iconMap[feature.icon]
+            const gradientClass = iconColors[feature.icon] || "from-primary/20 to-primary/5"
             return (
               <motion.div
                 key={feature.title}
                 variants={itemVariants}
-                className="group relative overflow-hidden rounded-2xl border bg-card/50 p-6 transition-all duration-500 hover:bg-card hover:shadow-xl hover:shadow-primary/5"
+                className="glass-card group relative p-6"
               >
-                <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/[0.03] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary/5">
-                  {Icon && <Icon className="h-6 w-6 text-primary" />}
+                <div className={`absolute -top-8 -right-8 h-32 w-32 rounded-full bg-gradient-to-br ${gradientClass} blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-0`} />
+                <div className="relative">
+                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
+                    {Icon && <Icon className="h-5 w-5 text-foreground" />}
+                  </div>
+                  <h3 className="mb-2 text-base font-semibold">{feature.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {feature.description}
+                  </p>
                 </div>
-                <h3 className="mb-2 text-lg font-semibold">{feature.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {feature.description}
-                </p>
               </motion.div>
             )
           })}

@@ -1,0 +1,1 @@
+import { MemoryChatSkeleton } from "@/components/loading"; export default MemoryChatSkeleton;

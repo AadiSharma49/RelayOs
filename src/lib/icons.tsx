@@ -33,9 +33,13 @@ import {
   Edit,
   FolderKanban,
   MessageSquare,
+  MessageCircle,
   FileText,
   ExternalLink,
   Clock,
+  Bot,
+  Send,
+  Copy,
   type LucideIcon,
 } from "lucide-react"
 
@@ -76,7 +80,11 @@ export const Icons = {
   edit: Edit,
   folderKanban: FolderKanban,
   messageSquare: MessageSquare,
+  messageCircle: MessageCircle,
   fileText: FileText,
   externalLink: ExternalLink,
   clock: Clock,
+  bot: Bot,
+  send: Send,
+  copy: Copy,
 }

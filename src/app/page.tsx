@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import {
   Navbar,
   Hero,
-  ProductSections,
+  Features,
   ArchitectureSection,
   UseCasesSection,
   CTA,
@@ -22,7 +22,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <ProductSections />
+        <Features />
         <ArchitectureSection />
         <UseCasesSection />
         <FAQSection />

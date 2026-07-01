@@ -1,4 +1,1 @@
-import { PageLoading } from "@/components/loading"
-export default function WorkspaceLoading() {
-  return <PageLoading />
-}
+import { PageLoading } from "@/components/loading"; export default PageLoading;

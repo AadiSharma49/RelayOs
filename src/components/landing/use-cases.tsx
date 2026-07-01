@@ -13,11 +13,25 @@ const iconMap: Record<string, Icon> = {
   Search: Icons.search,
 }
 
+const BORDER_CLASSES = [
+  "use-case-border-blue",
+  "use-case-border-purple",
+  "use-case-border-orange",
+  "use-case-border-green",
+] as const
+
+const ICON_GLOW_CLASSES = [
+  "icon-glow-blue",
+  "icon-glow-purple",
+  "icon-glow-orange",
+  "icon-glow-green",
+] as const
+
 const COLORS = [
-  "from-yellow-500/10 to-yellow-500/5",
-  "from-violet-500/10 to-violet-500/5",
-  "from-emerald-500/10 to-emerald-500/5",
   "from-blue-500/10 to-blue-500/5",
+  "from-violet-500/10 to-violet-500/5",
+  "from-amber-500/10 to-amber-500/5",
+  "from-emerald-500/10 to-emerald-500/5",
 ]
 
 export function UseCasesSection() {
@@ -30,14 +44,10 @@ export function UseCasesSection() {
         <AnimatedSection>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Who Is{" "}
-              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                RelayOS
-              </span>{" "}
-              For?
+              Built for teams that make decisions
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Every team that makes decisions — which is every team — benefits from having a memory layer.
+              If your team uses AI, RelayOS is for you.
             </p>
           </div>
         </AnimatedSection>
@@ -48,14 +58,14 @@ export function UseCasesSection() {
               return (
                 <motion.div
                   key={uc.title}
-                  whileHover={{ scale: 1.03, y: -4 }}
+                  whileHover={{ y: -4 }}
                   transition={{ duration: 0.3 }}
-                  className="group relative overflow-hidden rounded-2xl border bg-card/50 p-6 transition-all duration-300 hover:bg-card hover:shadow-xl hover:shadow-primary/5"
+                  className={`rounded-xl border bg-card p-6 transition-all duration-300 hover:shadow-md ${BORDER_CLASSES[i]}`}
                 >
-                  <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${COLORS[i]}`}>
-                    {Icon && <Icon className="h-6 w-6 text-foreground" />}
+                  <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br ${COLORS[i]}`}>
+                    {Icon && <Icon className={`h-5 w-5 text-foreground ${ICON_GLOW_CLASSES[i]}`} />}
                   </div>
-                  <h3 className="text-lg font-semibold">{uc.title}</h3>
+                  <h3 className="text-base font-semibold">{uc.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
                     {uc.description}
                   </p>
