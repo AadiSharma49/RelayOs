@@ -76,7 +76,7 @@ export function Features() {
               <motion.div
                 key={feature.title}
                 variants={itemVariants}
-                className="glass-card group relative p-6"
+                className="glass-card group relative overflow-hidden p-6"
               >
                 <div className={`absolute -top-8 -right-8 h-32 w-32 rounded-full bg-gradient-to-br ${gradientClass} blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-0`} />
                 <div className="relative">

@@ -43,16 +43,16 @@ export default async function WorkspaceDetailPage({
   return (
     <div className="space-y-10">
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div className="flex items-start gap-4">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="flex items-start gap-4 min-w-0">
           <Link
             href="/dashboard/workspaces"
-            className="mt-1 text-muted-foreground hover:text-foreground"
+            className="mt-1 shrink-0 text-muted-foreground hover:text-foreground"
           >
             <Icons.chevronLeft className="h-5 w-5" />
           </Link>
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
+          <div className="min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight wrap-break-word">
               {workspace.name}
             </h1>
             <p className="mt-1 text-muted-foreground text-sm">
@@ -60,7 +60,7 @@ export default async function WorkspaceDetailPage({
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 lg:shrink-0">
           <ImportConversationButton workspaceId={workspace.id} />
           <CreateDecisionButton workspaceId={workspace.id} />
           <CreateActionItemButton workspaceId={workspace.id} />

@@ -70,12 +70,12 @@ export function Hero() {
         <div className="hero-orb hero-orb-3" />
       </div>
 
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
+      <div className="w-full mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASING }}
-          className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight"
+          className="text-3xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight text-balance"
         >
           Your AI conversations are full of decisions.
           <br />

@@ -36,16 +36,16 @@ export default async function ConversationPage({
   return (
     <div className="mx-auto max-w-4xl space-y-8">
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div className="flex items-start gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex items-start gap-4 min-w-0">
           <Link
             href={`/dashboard/workspaces/${workspaceId}`}
-            className="mt-1 text-muted-foreground hover:text-foreground"
+            className="mt-1 shrink-0 text-muted-foreground hover:text-foreground"
           >
             <Icons.chevronLeft className="h-5 w-5" />
           </Link>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight wrap-break-word">
               {conversation.title}
             </h1>
             <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">

@@ -74,7 +74,7 @@ export function RelayLoader({
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(var(--tw-fg) 1px, transparent 1px), linear-gradient(90deg, var(--tw-fg) 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
           maskImage: "radial-gradient(ellipse at center, black 30%, transparent 70%)",
           WebkitMaskImage: "radial-gradient(ellipse at center, black 30%, transparent 70%)",

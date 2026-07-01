@@ -232,7 +232,7 @@ export default function MemoryChatPage() {
   if (!workspaceId) {
     return (
       <div className="-m-4 sm:-m-6 lg:-m-8" style={{
-        height: 'calc(100vh - 64px)',
+        height: 'calc(100dvh - 64px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -249,14 +249,14 @@ export default function MemoryChatPage() {
 
   return (
     <div className="-m-4 sm:-m-6 lg:-m-8" style={{
-      height: 'calc(100vh - 64px)',
+      height: 'calc(100dvh - 64px)',
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
     }}>
       {/* HEADER — fixed, never scrolls */}
       <div style={{ flexShrink: 0 }}>
-        <div className="flex items-center justify-between px-8 py-5">
+        <div className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Button
@@ -301,7 +301,7 @@ export default function MemoryChatPage() {
       {/* DIVIDER */}
       <div style={{
         height: '1px',
-        background: 'rgba(255,255,255,0.08)',
+        background: 'var(--tw-bd)',
         flexShrink: 0,
       }} />
 
@@ -318,7 +318,7 @@ export default function MemoryChatPage() {
           flexDirection: 'column',
           gap: '16px',
           scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(255,255,255,0.08) transparent',
+          scrollbarColor: 'var(--tw-bd) transparent',
         }}
       >
         {isHistoryLoading ? (
@@ -352,13 +352,7 @@ export default function MemoryChatPage() {
             <p className="text-sm text-muted-foreground max-w-md leading-relaxed text-center">
               Ask questions about your team's decisions, action items and conversations.
             </p>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '12px',
-              width: '100%',
-              maxWidth: '600px',
-            }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-[600px]">
               {SUGGESTED_QUESTIONS.map((q, i) => (
                 <button
                   key={i}
@@ -392,7 +386,7 @@ export default function MemoryChatPage() {
                       <span className="text-[10px] font-bold text-primary-foreground">You</span>
                     </div>
                   )}
-                  <div className={cn("max-w-[65%] rounded-2xl px-5 py-3.5 relative", msg.role === "user" ? "bg-gradient-to-br from-primary to-primary/90 text-primary-foreground rounded-br-md" : "bg-[#16161a] border border-white/10 shadow-sm rounded-bl-md")}>
+                  <div className={cn("max-w-[85%] sm:max-w-[70%] rounded-2xl px-4 sm:px-5 py-3.5 relative", msg.role === "user" ? "bg-gradient-to-br from-primary to-primary/90 text-primary-foreground rounded-br-md" : "bg-muted text-foreground border border-border shadow-sm rounded-bl-md")}>
                     <div className="text-sm leading-relaxed">{renderMarkdown(msg.content)}</div>
                     {msg.timestamp && (
                       <div className="mt-1 text-[10px] opacity-0 group-hover:opacity-60 transition-opacity">
@@ -400,7 +394,7 @@ export default function MemoryChatPage() {
                       </div>
                     )}
                     {msg.sources && msg.role === "assistant" && (
-                      <div className="mt-3 pt-3 border-t border-white/10">
+                      <div className="mt-3 pt-3 border-t border-border">
                         <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">Sources</p>
                         <div className="flex flex-wrap gap-1.5">
                           {msg.sources.decisions && msg.sources.decisions.length > 0 && msg.sources.decisions.map((d: any) => (
@@ -459,8 +453,8 @@ export default function MemoryChatPage() {
                       )
                       if (filteredRelated.length === 0) return null
                       return (
-                        <div className="mt-3 pt-3 border-t border-white/10">
-                          <p className="text-xs text-gray-500 mb-2">
+                        <div className="mt-3 pt-3 border-t border-border">
+                          <p className="text-xs text-muted-foreground mb-2">
                             Related questions
                           </p>
                           <div className="flex flex-col gap-2">
@@ -468,13 +462,13 @@ export default function MemoryChatPage() {
                               <button
                                 key={idx}
                                 onClick={() => sendMessage(q)}
-                                className="text-left text-sm px-3 py-2 rounded-lg 
-                                           border border-white/10 
-                                           bg-white/5 
-                                           hover:bg-white/10 
-                                           hover:border-white/20
-                                           text-gray-300
-                                           hover:text-white
+                                className="text-left text-sm px-3 py-2 rounded-lg
+                                           border border-border
+                                           bg-background
+                                           hover:bg-accent
+                                           hover:border-primary/30
+                                           text-foreground/80
+                                           hover:text-foreground
                                            transition-all duration-150
                                            cursor-pointer"
                               >
@@ -537,7 +531,7 @@ export default function MemoryChatPage() {
       {/* INPUT — fixed at bottom, never scrolls */}
       <div style={{
         flexShrink: 0,
-        borderTop: '1px solid rgba(255,255,255,0.08)',
+        borderTop: '1px solid var(--tw-bd)',
         padding: '16px 24px',
         background: 'var(--background)',
       }}>
