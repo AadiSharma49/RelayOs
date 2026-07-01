@@ -18,13 +18,12 @@ build/
 # Prisma
 prisma/migrations/
 
-# Environment
+# Environment — real secrets are ignored; .env.example stays committed as a template
 .env
 .env.local
 .env.*.local
 .env.production
 .env.development
-.env.example
 
 # Logs
 logs

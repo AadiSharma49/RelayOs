@@ -1,16 +1,16 @@
 import { RelayLoader } from "@/components/loading/relay-loader"
 import { SystemSkeleton } from "@/components/loading/page-skeletons"
 
-export default function SystemLoading() {
+export default function AIProvidersLoading() {
   return (
     <>
       <RelayLoader
-        title="System"
-        subtitle="Loading system settings"
+        title="AI Providers"
+        subtitle="Loading AI configurations"
         messages={[
-          "Preparing system...",
-          "Loading diagnostics...",
-          "Checking AI providers...",
+          "Preparing AI providers...",
+          "Checking connections...",
+          "Loading models...",
           "Almost ready...",
         ]}
       />

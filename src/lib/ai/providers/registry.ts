@@ -1,8 +1,8 @@
-import { AIProvider, type ProviderHealth, type ProviderName, type ExtractionResult } from "./provider"
+import { AIProvider, type ProviderHealth, type ProviderName } from "./provider"
 import { createGeminiProvider } from "./gemini"
 
 export function getProvider(): AIProvider {
-  const provider = (process.env.AI_PROVIDER || "openrouter") as ProviderName
+  const provider = (process.env.AI_PROVIDER || "gemini") as ProviderName
 
   switch (provider) {
     case "gemini":
