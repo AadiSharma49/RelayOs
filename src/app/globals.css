@@ -39,6 +39,7 @@
   --radius: 0.5rem;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-space-grotesk);
 }
 
 /* ── Light mode: warm premium SaaS ── */
@@ -127,6 +128,30 @@ body {
   max-width: 100%;
 }
 
+/* === Pipeline diagram — animated flowing connectors === */
+@keyframes flow-dash-h {
+  from { background-position: 0 0; }
+  to { background-position: 24px 0; }
+}
+@keyframes flow-dash-v {
+  from { background-position: 0 0; }
+  to { background-position: 0 24px; }
+}
+.pipeline-connector-h {
+  height: 2px;
+  background-image: repeating-linear-gradient(to right, var(--tw-pr) 0 8px, transparent 8px 16px);
+  background-size: 24px 2px;
+  animation: flow-dash-h 0.9s linear infinite;
+  opacity: 0.55;
+}
+.pipeline-connector-v {
+  width: 2px;
+  background-image: repeating-linear-gradient(to bottom, var(--tw-pr) 0 8px, transparent 8px 16px);
+  background-size: 2px 24px;
+  animation: flow-dash-v 0.9s linear infinite;
+  opacity: 0.55;
+}
+
 /* === Gradient text === */
 .text-gradient-hero {
   background: linear-gradient(135deg, #60a5fa, #a78bfa);
@@ -135,18 +160,25 @@ body {
   background-clip: text;
 }
 
-/* === Glassmorphism card === */
+/* === Glassmorphism (theme-aware) === */
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: color-mix(in oklab, var(--tw-cd) 60%, transparent);
+  border: 1px solid color-mix(in oklab, var(--tw-fg) 10%, transparent);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 16px;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .glass-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  border-color: color-mix(in oklab, var(--tw-pr) 45%, transparent);
+  box-shadow: 0 20px 40px -15px color-mix(in oklab, var(--tw-fg) 22%, transparent);
+}
+.glass-panel {
+  background: color-mix(in oklab, var(--tw-cd) 55%, transparent);
+  border: 1px solid color-mix(in oklab, var(--tw-fg) 10%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 /* === Hero background orbs === */

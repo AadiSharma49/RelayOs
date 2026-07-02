@@ -38,7 +38,17 @@ export default async function WorkspaceDetailPage({
     },
   })
 
-  if (!workspace) notFound()
+  if (!workspace) {
+    const actual = await prisma.workspace.findUnique({
+      where: { id: workspaceId },
+      select: { userId: true },
+    })
+    console.error(
+      `[workspace-page] 404 — viewer userId=${user.id} (${user.email}); ` +
+        `workspace ${workspaceId} ${actual ? `is owned by userId=${actual.userId}` : "does not exist"}`
+    )
+    notFound()
+  }
 
   return (
     <div className="space-y-10">

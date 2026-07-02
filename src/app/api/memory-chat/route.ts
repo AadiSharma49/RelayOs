@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { getOrCreateUser } from "@/lib/api-utils"
+import { fetchWithRetry, isRetryableStatus } from "@/lib/ai/fetch-retry"
 
 const SYSTEM_PROMPT = `You are RelayOS, a decision intelligence assistant. Your role is to answer questions about a workspace using ONLY the provided context.
 
@@ -157,7 +158,7 @@ ${context}
 
 User Question: ${message}`
 
-    const response = await fetch(url, {
+    const response = await fetchWithRetry(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -167,8 +168,19 @@ User Question: ${message}`
     })
 
     if (!response.ok) {
-      const text = await response.text().catch(() => "Unknown error")
-      throw new Error(`Gemini API error (${response.status}): ${text.slice(0, 300)}`)
+      const text = await response.text().catch(() => "")
+      console.error(`[memory-chat] Gemini error ${response.status}: ${text.slice(0, 300)}`)
+      // Transient overload/rate-limit — the retries above are already exhausted.
+      if (isRetryableStatus(response.status)) {
+        return NextResponse.json(
+          { error: "The AI model is busy right now. Please try again in a moment.", code: "AI_BUSY" },
+          { status: 503 }
+        )
+      }
+      return NextResponse.json(
+        { error: "The AI request failed. Please try again.", code: "AI_ERROR" },
+        { status: 502 }
+      )
     }
 
     const data = await response.json()
@@ -194,14 +206,18 @@ Rules:
 - Return ONLY a JSON array of 3 strings, nothing else
 - Example format: ["Question one?", "Question two?", "Question three?"]`
 
-      const questionsResponse = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: relatedPrompt }] }],
-          generationConfig: { temperature: 0.3, maxOutputTokens: 150 },
-        }),
-      })
+      const questionsResponse = await fetchWithRetry(
+        url,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: relatedPrompt }] }],
+            generationConfig: { temperature: 0.3, maxOutputTokens: 150 },
+          }),
+        },
+        { retries: 1 }
+      )
 
       if (questionsResponse.ok) {
         const questionsData = await questionsResponse.json()

@@ -74,7 +74,7 @@ export function FAQSection() {
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
               Frequently asked questions
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">

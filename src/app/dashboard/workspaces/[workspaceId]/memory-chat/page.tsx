@@ -92,6 +92,7 @@ export default function MemoryChatPage() {
   const [isHistoryLoading, setIsHistoryLoading] = React.useState(false)
   const [isClearing, setIsClearing] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
+  const [suggestions, setSuggestions] = React.useState<string[]>(SUGGESTED_QUESTIONS)
   const bottomRef = React.useRef<HTMLDivElement>(null)
   const textareaRef = React.useRef<HTMLTextAreaElement>(null)
 
@@ -128,6 +129,19 @@ export default function MemoryChatPage() {
       .then(r => r.json())
       .then(data => {
         if (data.name) setWorkspaceName(data.name)
+      })
+      .catch(() => {})
+  }, [workspaceId])
+
+  // Fetch starter questions tailored to this workspace's actual content
+  React.useEffect(() => {
+    if (!workspaceId) return
+    fetch(`/api/memory-chat/suggestions?workspaceId=${workspaceId}`)
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data.suggestions) && data.suggestions.length > 0) {
+          setSuggestions(data.suggestions)
+        }
       })
       .catch(() => {})
   }, [workspaceId])
@@ -170,6 +184,9 @@ export default function MemoryChatPage() {
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Something went wrong"
       setError(msg)
+      // Restore the question and drop the unanswered bubble so retry is clean.
+      setInput(trimmed)
+      setMessages(prev => (prev[prev.length - 1]?.role === "user" ? prev.slice(0, -1) : prev))
       console.error("Send message failed:", err)
     } finally {
       setIsLoading(false)
@@ -199,7 +216,9 @@ export default function MemoryChatPage() {
 
   const retryLast = React.useCallback(() => {
     setError(null)
-  }, [])
+    const text = input.trim()
+    if (text) sendMessage(text)
+  }, [input, sendMessage])
 
   const handleClearChat = React.useCallback(async () => {
     if (!workspaceId || messages.length === 0) return
@@ -353,7 +372,7 @@ export default function MemoryChatPage() {
               Ask questions about your team's decisions, action items and conversations.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-[600px]">
-              {SUGGESTED_QUESTIONS.map((q, i) => (
+              {suggestions.map((q, i) => (
                 <button
                   key={i}
                   onClick={() => askQuestion(q)}

@@ -5,6 +5,10 @@ const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/api/public(.*)",
+  // Extension endpoints authenticate with a Bearer API key inside the route,
+  // not a Clerk session — they must bypass Clerk's session protection (and its
+  // CORS-less redirects) so the browser extension can reach them.
+  "/api/extension(.*)",
 ])
 
 export default clerkMiddleware(async (auth, request) => {

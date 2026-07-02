@@ -2,10 +2,17 @@
 
 import * as React from "react"
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import { useUser } from "@clerk/nextjs"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/lib/icons"
+
+// Lazy, client-only — the animated background never blocks first paint.
+const AuroraBackground = dynamic(
+  () => import("@/components/ui/aurora-background").then((m) => m.AuroraBackground),
+  { ssr: false }
+)
 import {
   SiOpenai,
   SiAnthropic,
@@ -63,11 +70,9 @@ export function Hero() {
 
   return (
     <section className="relative flex flex-col items-center justify-center overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-24">
-      {/* Background orbs */}
+      {/* Animated aurora background (lazy, GPU-composited) */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="hero-orb hero-orb-1" />
-        <div className="hero-orb hero-orb-2" />
-        <div className="hero-orb hero-orb-3" />
+        <AuroraBackground className="h-full w-full" intensity={0.55} />
       </div>
 
       <div className="w-full mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
@@ -75,7 +80,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASING }}
-          className="text-3xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight text-balance"
+          className="font-heading text-3xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight text-balance"
         >
           Your AI conversations are full of decisions.
           <br />

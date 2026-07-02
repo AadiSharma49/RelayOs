@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>RelayOS</title>
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div class="brand">
+          <div class="logo">R</div>
+          <span class="brand-name">RelayOS</span>
+        </div>
+        <span id="statusDot" class="status-dot" title="Not connected"></span>
+      </header>
+
+      <!-- Loading -->
+      <section id="screen-loading" class="screen">
+        <div class="spinner"></div>
+        <p class="muted">Loading…</p>
+      </section>
+
+      <!-- Connect (no API key stored) -->
+      <section id="screen-connect" class="screen hidden">
+        <h2 class="title">Connect your account</h2>
+        <p class="muted">Paste your RelayOS API key to capture conversations.</p>
+
+        <label class="label" for="apiBase">RelayOS URL</label>
+        <input id="apiBase" class="input" type="text" placeholder="http://localhost:3000" />
+
+        <label class="label" for="apiKey">API key</label>
+        <input id="apiKey" class="input" type="password" placeholder="relay_sk_…" />
+
+        <button id="getKeyBtn" class="link-btn">Get my API key →</button>
+        <p id="connectError" class="error hidden"></p>
+        <button id="saveBtn" class="btn btn-primary">Connect</button>
+      </section>
+
+      <!-- Not on a supported site -->
+      <section id="screen-unsupported" class="screen hidden">
+        <div class="icon-circle">🗒️</div>
+        <h2 class="title">Open an AI chat</h2>
+        <p class="muted">
+          Go to Claude, ChatGPT or Gemini, open a conversation, then click this
+          icon to capture it.
+        </p>
+        <button id="disconnectBtn2" class="link-btn danger">Disconnect</button>
+      </section>
+
+      <!-- Capture -->
+      <section id="screen-capture" class="screen hidden">
+        <h2 class="title">Capture this conversation</h2>
+        <p id="sourceLabel" class="muted"></p>
+
+        <label class="label" for="workspace">Workspace</label>
+        <select id="workspace" class="input"></select>
+
+        <button id="captureBtn" class="btn btn-primary">Capture conversation</button>
+        <button id="disconnectBtn" class="link-btn danger">Disconnect</button>
+      </section>
+
+      <!-- Capturing -->
+      <section id="screen-capturing" class="screen hidden">
+        <div class="spinner"></div>
+        <p id="capturingText" class="muted">Capturing…</p>
+      </section>
+
+      <!-- Success -->
+      <section id="screen-success" class="screen hidden">
+        <div class="icon-circle success">✓</div>
+        <h2 class="title">Captured!</h2>
+        <p id="successText" class="muted"></p>
+        <button id="viewBtn" class="btn btn-primary">View in RelayOS</button>
+        <button id="againBtn" class="link-btn">Capture another</button>
+      </section>
+
+      <!-- Error -->
+      <section id="screen-error" class="screen hidden">
+        <div class="icon-circle error">!</div>
+        <h2 class="title">Something went wrong</h2>
+        <p id="errorText" class="error"></p>
+        <button id="retryBtn" class="btn btn-primary">Try again</button>
+      </section>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

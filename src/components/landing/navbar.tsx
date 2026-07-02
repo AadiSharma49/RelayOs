@@ -46,7 +46,7 @@ export function Navbar() {
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary transition-transform duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/25">
             <span className="text-xs font-bold text-primary-foreground">R</span>
           </div>
-          <span className="text-sm font-semibold tracking-tight hidden sm:inline">{APP_NAME}</span>
+          <span className="font-heading text-sm font-semibold tracking-tight hidden sm:inline">{APP_NAME}</span>
         </Link>
 
         {/* Desktop Navigation */}
