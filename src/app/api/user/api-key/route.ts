@@ -4,13 +4,13 @@ import { getOrCreateUser } from "@/lib/api-utils"
 import { generateApiKey } from "@/lib/api-auth"
 
 /**
- * GET  — returns the user's API key. If none exists yet, one is generated and
- *        returned in plaintext ONCE. If a key already exists, we only report
- *        that fact (the plaintext is unrecoverable — use POST to regenerate).
- * POST — always generates a fresh key, invalidating the previous one.
+ * GET  — reports whether the user has an API key (never returns the plaintext;
+ *        keys are shown only once at creation time). Does NOT auto-generate.
+ * POST — generates a fresh key (invalidating any previous one) and returns the
+ *        plaintext ONCE.
  *
- * Both require a signed-in Clerk session. The plaintext key is pasted into the
- * browser extension; the server stores only its SHA-256 hash.
+ * Both require a signed-in Clerk session. The server stores only the key's
+ * SHA-256 hash; the plaintext is pasted into the browser extension.
  */
 
 export async function GET() {
@@ -20,18 +20,7 @@ export async function GET() {
       where: { id: user.id },
       select: { apiKey: true },
     })
-
-    if (dbUser?.apiKey) {
-      return NextResponse.json({
-        hasKey: true,
-        key: null,
-        message: "An API key already exists. Use regenerate to create a new one.",
-      })
-    }
-
-    const { key, hash } = generateApiKey()
-    await prisma.user.update({ where: { id: user.id }, data: { apiKey: hash } })
-    return NextResponse.json({ hasKey: true, key })
+    return NextResponse.json({ hasKey: !!dbUser?.apiKey })
   } catch (error) {
     console.error("[api-key] GET error:", error instanceof Error ? error.message : error)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })

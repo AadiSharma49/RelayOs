@@ -75,7 +75,52 @@ export function Hero() {
         <AuroraBackground className="h-full w-full" intensity={0.55} />
       </div>
 
+      {/* Floating glass objects (desktop only, decorative) */}
+      <div className="pointer-events-none absolute inset-0 -z-10 hidden lg:block">
+        <motion.div
+          animate={{ y: [0, -18, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="glass-card absolute left-[7%] top-[30%] flex h-14 w-14 items-center justify-center rounded-2xl"
+        >
+          <Icons.messageSquare className="h-6 w-6 text-blue-400" />
+        </motion.div>
+        <motion.div
+          animate={{ y: [0, 20, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+          className="glass-card absolute right-[9%] top-[26%] flex h-14 w-14 items-center justify-center rounded-2xl"
+        >
+          <Icons.gitBranch className="h-6 w-6 text-violet-400" />
+        </motion.div>
+        <motion.div
+          animate={{ y: [0, -14, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="glass-card absolute bottom-[24%] left-[13%] flex h-12 w-12 items-center justify-center rounded-xl"
+        >
+          <Icons.checkCircle className="h-5 w-5 text-emerald-400" />
+        </motion.div>
+        <motion.div
+          animate={{ y: [0, 16, 0] }}
+          transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+          className="glass-card absolute bottom-[28%] right-[12%] flex h-12 w-12 items-center justify-center rounded-xl"
+        >
+          <Icons.search className="h-5 w-5 text-amber-400" />
+        </motion.div>
+      </div>
+
       <div className="w-full mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: EASING }}
+          className="glass-panel mb-6 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium text-muted-foreground"
+        >
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/60" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+          </span>
+          New · One-click browser capture
+        </motion.div>
+
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -100,23 +145,26 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6, ease: EASING }}
-          className="mt-8"
+          className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
-          {isSignedIn ? (
-            <Link href="/dashboard">
-              <Button size="lg" className="h-12 px-8 text-base">
-                Open Dashboard
-                <Icons.arrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          ) : (
-            <Link href="/sign-up">
-              <Button size="lg" className="h-12 px-8 text-base">
-                Get Started Free
-                <Icons.arrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          )}
+          <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+            <Button
+              size="lg"
+              className="group h-12 border-0 bg-linear-to-r from-primary to-violet-500 px-8 text-base font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+            >
+              {isSignedIn ? "Open Dashboard" : "Get Started Free"}
+              <Icons.arrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
+          <Link href="#how-it-works">
+            <Button
+              size="lg"
+              variant="outline"
+              className="glass-panel h-12 border-0 px-6 text-base font-medium"
+            >
+              See how it works
+            </Button>
+          </Link>
         </motion.div>
 
         <EcosystemLogos />
