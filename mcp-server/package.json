@@ -1,0 +1,16 @@
+{
+  "name": "relayos-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server that exposes your RelayOS decision memory to Claude Desktop, Cursor and other MCP clients.",
+  "type": "module",
+  "bin": {
+    "relayos-mcp": "index.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node index.mjs"
+  }
+}

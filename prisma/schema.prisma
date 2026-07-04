@@ -71,6 +71,8 @@ model Decision {
   conversationId String?
   workspaceId    String
   userId         String
+  /// Semantic-search embedding (pgvector). Written/read via raw SQL only.
+  embedding      Unsupported("vector(768)")?
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   workspace      Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)

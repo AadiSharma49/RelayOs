@@ -9,6 +9,9 @@ const isPublicRoute = createRouteMatcher([
   // not a Clerk session — they must bypass Clerk's session protection (and its
   // CORS-less redirects) so the browser extension can reach them.
   "/api/extension(.*)",
+  // MCP endpoints likewise use Bearer API-key auth (called by the RelayOS MCP
+  // server from Claude Desktop / Cursor), so they also bypass Clerk sessions.
+  "/api/mcp(.*)",
 ])
 
 export default clerkMiddleware(async (auth, request) => {
