@@ -40,6 +40,7 @@ import {
   Bot,
   Send,
   Copy,
+  Download,
   type LucideIcon,
 } from "lucide-react"
 
@@ -87,4 +88,5 @@ export const Icons = {
   bot: Bot,
   send: Send,
   copy: Copy,
+  download: Download,
 }

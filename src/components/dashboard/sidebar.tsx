@@ -22,6 +22,7 @@ const iconMap: Record<string, React.ElementType> = {
   FolderKanban: Icons.folderKanban,
   Lightbulb: Icons.lightbulb,
   Settings: Icons.settings,
+  Download: Icons.download,
 }
 
 interface SidebarProps {

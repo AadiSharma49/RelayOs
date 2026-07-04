@@ -82,4 +82,9 @@ export const SIDEBAR_NAV = [
     href: "/dashboard/workspaces",
     icon: "FolderKanban",
   },
+  {
+    title: "Import",
+    href: "/dashboard/import",
+    icon: "Download",
+  },
 ] as const
