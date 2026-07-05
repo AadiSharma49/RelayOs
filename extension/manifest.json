@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "RelayOS — Decision Capture",
   "version": "1.0.0",
-  "description": "Capture AI conversations to RelayOS with one click.",
+  "description": "Capture AI conversations to RelayOS with one click and auto-extract decisions, action items and questions.",
+  "author": "RelayOS",
   "permissions": ["activeTab", "storage", "scripting"],
   "host_permissions": [
     "https://claude.ai/*",
