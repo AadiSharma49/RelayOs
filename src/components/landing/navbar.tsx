@@ -7,7 +7,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
 import { Icons } from "@/lib/icons"
-import { APP_NAME, NAV_LINKS } from "@/lib/constants"
+import { LogoMark } from "@/components/brand/logo"
+import { NAV_LINKS } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 import {
   DropdownMenu,
@@ -44,11 +45,12 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link href={logHref} className="group flex shrink-0 items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-violet-500 shadow-md shadow-primary/30 transition-transform duration-300 group-hover:scale-110">
-            <span className="text-xs font-bold text-white">R</span>
-          </div>
+          <LogoMark
+            size={28}
+            className="rounded-lg shadow-md shadow-primary/30 transition-transform duration-300 group-hover:scale-110"
+          />
           <span className="font-heading hidden text-sm font-semibold tracking-tight sm:inline">
-            {APP_NAME}
+            Relay<span className="text-primary">OS</span>
           </span>
         </Link>
 

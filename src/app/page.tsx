@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import {
   Navbar,
   Hero,
+  LiveDemo,
   Features,
   ArchitectureSection,
   UseCasesSection,
@@ -23,6 +24,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <LiveDemo />
         <Features />
         <ArchitectureSection />
         <UseCasesSection />
