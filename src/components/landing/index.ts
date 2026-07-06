@@ -1,5 +1,6 @@
 export { Navbar } from "./navbar"
 export { Hero } from "./hero"
+export { LiveDemo } from "./live-demo"
 export { Features } from "./features"
 export { FlowDiagram } from "./flow-diagram"
 export { ArchitectureSection } from "./architecture"
