@@ -11,8 +11,12 @@ const FAQS = [
     a: "It captures conversations from AI tools like ChatGPT and Claude, extracts decisions, action items, and questions, and makes them searchable. Think of it as a decision memory layer for your AI chats."
   },
   {
+    q: "Isn't this just documentation?",
+    a: "No — and that's the point. Documentation is great when it exists, but most decisions never get written down. The reasoning behind why you chose one approach over another usually lives in an AI chat and then disappears. RelayOS captures that reasoning automatically, so you keep the 'why' you'd never open a doc to write."
+  },
+  {
     q: "Which AI tools does it support?",
-    a: "You can paste text from any AI tool — ChatGPT, Claude, Gemini, Cursor, Notion, Discord, and more. Import is manual copy-paste for now."
+    a: "ChatGPT, Claude and Gemini with one-click capture via the browser extension, plus paste or file import from any AI tool. You can also bulk-import your existing ChatGPT or Claude export."
   },
   {
     q: "How does the AI extraction work?",
@@ -24,11 +28,11 @@ const FAQS = [
   },
   {
     q: "Do I need to install anything?",
-    a: "No. RelayOS is a web app. Sign up with Clerk, create a workspace, paste a conversation, and start extracting decisions."
+    a: "No — RelayOS is a web app. Sign up, create a workspace, and start capturing. There's also an optional browser extension for one-click capture from ChatGPT, Claude and Gemini."
   },
   {
     q: "What's coming next?",
-    a: "We're working on batch imports, real-time sync, semantic search, and a knowledge graph. The basics work today — the rest is on the way."
+    a: "Semantic search, the browser extension, conflict detection, and an MCP server that plugs your decisions into Claude and Cursor are already live. Next up: deeper integrations and team features."
   },
 ]
 

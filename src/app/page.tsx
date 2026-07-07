@@ -6,6 +6,7 @@ import {
   Hero,
   LiveDemo,
   Features,
+  HowItWorks,
   ArchitectureSection,
   UseCasesSection,
   CTA,
@@ -26,6 +27,7 @@ export default function Home() {
         <Hero />
         <LiveDemo />
         <Features />
+        <HowItWorks />
         <ArchitectureSection />
         <UseCasesSection />
         <FAQSection />

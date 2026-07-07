@@ -5,15 +5,15 @@ import { ArchitectureFlow } from "./architecture-flow"
 
 export function ArchitectureSection() {
   return (
-    <section id="how-it-works" className="relative overflow-hidden py-24 sm:py-32">
+    <section id="architecture" className="relative overflow-hidden pb-24 sm:pb-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-              How it works
+            <h2 className="font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+              Under the hood
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Watch a conversation turn into structured, searchable memory — live.
+              The same flow, as a live architecture view — your data stays yours.
             </p>
           </div>
         </AnimatedSection>
