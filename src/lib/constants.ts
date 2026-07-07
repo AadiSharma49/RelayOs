@@ -84,6 +84,16 @@ export const SIDEBAR_NAV = [
     icon: "FolderKanban",
   },
   {
+    title: "Search",
+    href: "/dashboard/search",
+    icon: "Search",
+  },
+  {
+    title: "Conflicts",
+    href: "/dashboard/conflicts",
+    icon: "AlertCircle",
+  },
+  {
     title: "Import",
     href: "/dashboard/import",
     icon: "Download",

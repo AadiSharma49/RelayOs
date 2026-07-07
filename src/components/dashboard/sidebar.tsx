@@ -23,6 +23,8 @@ const iconMap: Record<string, React.ElementType> = {
   Lightbulb: Icons.lightbulb,
   Settings: Icons.settings,
   Download: Icons.download,
+  Search: Icons.search,
+  AlertCircle: Icons.alertCircle,
 }
 
 interface SidebarProps {
