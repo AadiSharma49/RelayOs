@@ -6,6 +6,7 @@ export const APP_DESCRIPTION =
 export const NAV_LINKS = [
   { href: "#features", label: "Features" },
   { href: "#how-it-works", label: "How It Works" },
+  { href: "/extension", label: "Extension" },
   { href: "#faq", label: "FAQ" },
 ] as const
 

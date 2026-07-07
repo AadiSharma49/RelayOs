@@ -10,6 +10,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     links: [
       { label: "Features", href: "/#features" },
       { label: "How it works", href: "/#how-it-works" },
+      { label: "Extension", href: "/extension" },
       { label: "FAQ", href: "/#faq" },
     ],
   },
@@ -19,14 +20,6 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Sign In", href: "/sign-in" },
       { label: "Sign Up", href: "/sign-up" },
       { label: "Dashboard", href: "/dashboard" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "/#" },
-      { label: "Privacy", href: "/#" },
-      { label: "Terms", href: "/#" },
     ],
   },
 ]
@@ -45,7 +38,7 @@ export function Footer() {
 
       {/* Link columns */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           <div className="space-y-3">
             <Link href="/" className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
