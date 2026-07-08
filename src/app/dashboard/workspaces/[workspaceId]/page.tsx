@@ -90,7 +90,24 @@ export default async function WorkspaceDetailPage({
       </div>
 
       {/* Conversations */}
-      <Section icon={Icons.messageSquare} title="Conversations" count={workspace.conversations.length} emptyMessage="Import a conversation to start working with your data.">
+      <Section
+        icon={Icons.messageSquare}
+        title="Conversations"
+        count={workspace.conversations.length}
+        emptyMessage={
+          <span>
+            Capture your first conversation with the{" "}
+            <Link href={"/extension" as any} className="text-primary hover:underline">
+              browser extension
+            </Link>
+            , or{" "}
+            <Link href="/dashboard/import" className="text-primary hover:underline">
+              import your chat history
+            </Link>
+            .
+          </span>
+        }
+      >
         {workspace.conversations.map((conv: { id: string; title: string; content: string; createdAt: Date }) => {
           const preview = conv.content.length > 150 ? conv.content.slice(0, 150) + "..." : conv.content
           return (
@@ -207,7 +224,7 @@ function Section({
   icon: any
   title: string
   count: number
-  emptyMessage: string
+  emptyMessage: React.ReactNode
   children: React.ReactNode
 }) {
   return (

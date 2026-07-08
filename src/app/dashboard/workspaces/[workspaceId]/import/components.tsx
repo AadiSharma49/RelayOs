@@ -1,11 +1,82 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/lib/icons"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+
+/**
+ * Capture options, ordered by how we want people to add conversations:
+ *   1. Browser extension  — one-click automatic capture (the primary path)
+ *   2. File import        — bulk history upload
+ *   3. Paste manually     — secondary fallback, tucked behind a toggle
+ */
+export function CaptureOptions({ workspaceId }: { workspaceId: string }) {
+  const [showPaste, setShowPaste] = React.useState(false)
+
+  return (
+    <div className="space-y-4">
+      {/* 1 — Browser extension (primary) */}
+      <Link
+        href={"/extension" as any}
+        className="group flex items-center gap-4 rounded-xl border-2 border-primary/30 bg-primary/5 p-5 transition-all hover:border-primary/50 hover:shadow-md"
+      >
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/15">
+          <Icons.plug className="h-5 w-5 text-primary" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <p className="font-semibold">Capture with the browser extension</p>
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
+              Recommended
+            </span>
+          </div>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            One click on any ChatGPT, Claude or Gemini chat — no copy-paste.
+          </p>
+        </div>
+        <Icons.arrowRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1" />
+      </Link>
+
+      {/* 2 — File import (bulk history) */}
+      <Link
+        href={"/dashboard/import" as any}
+        className="group flex items-center gap-4 rounded-xl border bg-card p-5 transition-all hover:border-primary/30 hover:shadow-md"
+      >
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-muted">
+          <Icons.download className="h-5 w-5 text-foreground" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="font-semibold">Import your chat history</p>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            Bulk-upload your ChatGPT or Claude export file.
+          </p>
+        </div>
+        <Icons.arrowRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1" />
+      </Link>
+
+      {/* 3 — Paste manually (secondary fallback) */}
+      <div className="pt-1 text-center">
+        <button
+          type="button"
+          onClick={() => setShowPaste((v) => !v)}
+          className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+        >
+          {showPaste ? "Hide manual paste" : "or paste a conversation manually"}
+        </button>
+      </div>
+
+      {showPaste && (
+        <div className="rounded-xl border bg-card p-5">
+          <ImportConversationForm workspaceId={workspaceId} />
+        </div>
+      )}
+    </div>
+  )
+}
 
 export function ImportConversationForm({
   workspaceId,
