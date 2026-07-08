@@ -67,12 +67,27 @@ function EcosystemLogos() {
 
 export function Hero() {
   const { isSignedIn } = useUser()
+  // Defer the decorative aurora canvas until the browser is idle so it never
+  // competes with first paint / LCP during load.
+  const [showAurora, setShowAurora] = React.useState(false)
+  React.useEffect(() => {
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number
+      cancelIdleCallback?: (id: number) => void
+    }
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(() => setShowAurora(true), { timeout: 1800 })
+      return () => w.cancelIdleCallback?.(id)
+    }
+    const id = window.setTimeout(() => setShowAurora(true), 1200)
+    return () => clearTimeout(id)
+  }, [])
 
   return (
     <section className="relative flex flex-col items-center justify-center overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-24">
-      {/* Animated aurora background (lazy, GPU-composited) */}
+      {/* Animated aurora background (deferred to idle, GPU-composited) */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-        <AuroraBackground className="h-full w-full" intensity={0.55} />
+        {showAurora && <AuroraBackground className="h-full w-full" intensity={0.55} />}
       </div>
 
       {/* Floating glass objects (desktop only, decorative) */}
@@ -121,25 +136,17 @@ export function Hero() {
           New · One-click browser capture
         </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASING }}
-          className="font-heading text-3xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight text-balance"
-        >
+        {/* LCP element — rendered immediately (no entrance animation) so the
+            largest text paints without waiting for JS hydration. */}
+        <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight text-balance">
           Your AI conversations are full of decisions.
           <br />
           <span className="text-gradient-hero">Stop losing them.</span>
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.6, ease: EASING }}
-          className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground"
-        >
-          RelayOS captures decisions, action items, and questions from your AI chats — and makes them searchable forever.
-        </motion.p>
+        <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
+          One click captures your ChatGPT, Claude, and Gemini chats — RelayOS pulls out the decisions and makes them searchable forever.
+        </p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -147,23 +154,39 @@ export function Hero() {
           transition={{ delay: 0.2, duration: 0.6, ease: EASING }}
           className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
-          <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+          <Link href={"/extension" as any}>
             <Button
               size="lg"
               className="group h-12 border-0 bg-linear-to-r from-primary to-violet-500 px-8 text-base font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
             >
-              {isSignedIn ? "Open Dashboard" : "Get Started Free"}
+              <Icons.plug className="mr-2 h-4 w-4" />
+              Get the extension
               <Icons.arrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </Link>
-          <Link href="#how-it-works">
+          <Link href={"/dashboard/import" as any}>
             <Button
               size="lg"
               variant="outline"
               className="glass-panel h-12 border-0 px-6 text-base font-medium"
             >
-              See how it works
+              <Icons.download className="mr-2 h-4 w-4" />
+              or import your chat history
             </Button>
+          </Link>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.35, duration: 0.6 }}
+          className="mt-4"
+        >
+          <Link
+            href="#how-it-works"
+            className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          >
+            See how it works
           </Link>
         </motion.div>
 

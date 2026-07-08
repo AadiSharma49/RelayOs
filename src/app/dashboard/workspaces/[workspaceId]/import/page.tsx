@@ -4,14 +4,14 @@ import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { Icons } from "@/lib/icons"
 import { getOrCreateUser } from "@/lib/api-utils"
-import { ImportConversationForm } from "./components"
+import { CaptureOptions } from "./components"
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
 export const metadata: Metadata = {
-  title: "Import Conversation",
-  description: "Import a conversation into your workspace",
+  title: "Add a conversation",
+  description: "Capture a conversation into your workspace",
 }
 
 export default async function ImportConversationPage({
@@ -38,10 +38,10 @@ export default async function ImportConversationPage({
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">
-            Import Conversation
+            Add a conversation
           </h1>
           <p className="text-muted-foreground">
-            Paste a conversation into{" "}
+            Capture into{" "}
             <span className="font-medium text-foreground">
               {workspace.name}
             </span>
@@ -49,7 +49,7 @@ export default async function ImportConversationPage({
         </div>
       </div>
 
-      <ImportConversationForm workspaceId={workspace.id} />
+      <CaptureOptions workspaceId={workspace.id} />
     </div>
   )
 }

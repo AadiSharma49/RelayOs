@@ -73,7 +73,15 @@ export default async function DashboardPage() {
         <div className="rounded-xl border bg-card">
           <div className="p-6">
             <p className="text-sm text-muted-foreground">
-              No recent activity yet. Import a conversation to get started.
+              No activity yet. Get started by{" "}
+              <Link href={"/extension" as Route} className="text-primary hover:underline">
+                installing the browser extension
+              </Link>{" "}
+              for one-click capture, or{" "}
+              <Link href="/dashboard/import" className="text-primary hover:underline">
+                importing your chat history
+              </Link>
+              .
             </p>
           </div>
         </div>
