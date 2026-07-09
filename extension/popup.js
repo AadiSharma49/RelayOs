@@ -1,4 +1,5 @@
 // RelayOS popup controller — connect, list workspaces, capture, show result.
+// Once connected + a default workspace is remembered, capture is one click.
 
 const DEFAULT_BASE = "http://localhost:3000"
 const SUPPORTED = [
@@ -9,7 +10,13 @@ const SUPPORTED = [
 const SOURCE_NAMES = { claude: "Claude", chatgpt: "ChatGPT", gemini: "Gemini", unknown: "this page" }
 
 const $ = (id) => document.getElementById(id)
-const state = { apiKey: null, apiBase: DEFAULT_BASE, tab: null, workspaces: [] }
+const state = {
+  apiKey: null,
+  apiBase: DEFAULT_BASE,
+  tab: null,
+  workspaces: [],
+  defaultWorkspaceId: null,
+}
 
 const SCREENS = [
   "loading", "connect", "unsupported", "capture", "capturing", "success", "error",
@@ -25,7 +32,12 @@ function setConnected(on) {
 const trimBase = (b) => (b || DEFAULT_BASE).trim().replace(/\/+$/, "")
 
 async function storageGet() {
-  return chrome.storage.local.get(["relayApiKey", "relayApiBase", "lastWorkspaceId"])
+  return chrome.storage.local.get([
+    "relayApiKey",
+    "relayApiBase",
+    "relayDefaultWorkspaceId",
+    "lastWorkspaceId",
+  ])
 }
 
 function isSupported(url) {
@@ -51,10 +63,13 @@ async function init() {
   const stored = await storageGet()
   state.apiKey = stored.relayApiKey || null
   state.apiBase = trimBase(stored.relayApiBase)
+  // Prefer an explicit default; fall back to the last workspace used.
+  state.defaultWorkspaceId = stored.relayDefaultWorkspaceId || stored.lastWorkspaceId || null
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
   state.tab = tab
 
+  // Connection is remembered — we only show "connect" when there's no key.
   if (!state.apiKey) {
     $("apiBase").value = state.apiBase
     setConnected(false)
@@ -68,40 +83,71 @@ async function init() {
   try {
     const res = await apiFetch("/api/extension/workspaces")
     if (res.status === 401) {
+      // Only reconnect prompt is when the key is actually invalid.
       showConnectError("Your API key was rejected. Please reconnect.")
       return
     }
     if (!res.ok) throw new Error(`Server error (${res.status})`)
     const data = await res.json()
     state.workspaces = data.workspaces || []
-    renderCapture(stored.lastWorkspaceId)
+    renderCapture()
   } catch (e) {
     showError(`Couldn't reach RelayOS at ${state.apiBase}. Is it running?`)
   }
 }
 
-function renderCapture(lastWorkspaceId) {
+function defaultWorkspace() {
+  if (!state.defaultWorkspaceId) return null
+  return state.workspaces.find((w) => w.id === state.defaultWorkspaceId) || null
+}
+
+function pickerVisible() {
+  return !$("wsPicker").classList.contains("hidden")
+}
+
+function setMode(mode) {
+  // "quick" = one-click to remembered workspace; "pick" = choose from dropdown.
+  const quick = mode === "quick"
+  $("targetRow").classList.toggle("hidden", !quick)
+  $("wsPicker").classList.toggle("hidden", quick)
+}
+
+function renderCapture() {
   const source = detectSourceFromUrl(state.tab?.url)
   $("sourceLabel").textContent = `From ${SOURCE_NAMES[source] || "this page"}`
 
   const select = $("workspace")
   select.innerHTML = ""
+
   if (state.workspaces.length === 0) {
     const opt = document.createElement("option")
     opt.textContent = "No workspaces — create one in RelayOS"
     opt.disabled = true
     select.appendChild(opt)
     $("captureBtn").disabled = true
-  } else {
-    state.workspaces.forEach((ws) => {
-      const opt = document.createElement("option")
-      opt.value = ws.id
-      opt.textContent = ws.name
-      if (ws.id === lastWorkspaceId) opt.selected = true
-      select.appendChild(opt)
-    })
-    $("captureBtn").disabled = false
+    setMode("pick")
+    return show("capture")
   }
+
+  state.workspaces.forEach((ws) => {
+    const opt = document.createElement("option")
+    opt.value = ws.id
+    opt.textContent = ws.name
+    select.appendChild(opt)
+  })
+  $("captureBtn").disabled = false
+
+  const def = defaultWorkspace()
+  if (def) {
+    // Remembered — one-click capture, dropdown preselected in case they Change.
+    select.value = def.id
+    $("targetName").textContent = def.name
+    setMode("quick")
+  } else {
+    // First capture — let them pick; we'll remember it afterwards.
+    setMode("pick")
+  }
+
   show("capture")
 }
 
@@ -122,8 +168,17 @@ async function extractFromTab(tabId) {
   return chrome.tabs.sendMessage(tabId, { action: "extractConversation" })
 }
 
+function clearBadge() {
+  try {
+    chrome.runtime.sendMessage({ action: "clearBadge", tabId: state.tab?.id })
+  } catch {
+    /* ignore */
+  }
+}
+
 async function capture() {
-  const workspaceId = $("workspace").value
+  // Target is the dropdown when picking, otherwise the remembered default.
+  const workspaceId = pickerVisible() ? $("workspace").value : state.defaultWorkspaceId
   if (!workspaceId) return
   show("capturing")
   $("capturingText").textContent = "Reading the conversation…"
@@ -152,23 +207,38 @@ async function capture() {
     const data = await res.json().catch(() => ({}))
     if (!res.ok) throw new Error(data.error || `Server error (${res.status})`)
 
-    await chrome.storage.local.set({ lastWorkspaceId: workspaceId })
+    // Remember this workspace so future captures are one click.
+    state.defaultWorkspaceId = workspaceId
+    await chrome.storage.local.set({
+      relayDefaultWorkspaceId: workspaceId,
+      lastWorkspaceId: workspaceId,
+    })
+    clearBadge()
     showSuccess(data, workspaceId)
   } catch (e) {
     showError(e.message || "Capture failed. Try again.")
   }
 }
 
+// Builds "Captured — 3 decisions, 2 action items found" from the counts.
+function summarize(counts) {
+  const parts = []
+  if (counts.decisions) parts.push(`${counts.decisions} decision${counts.decisions === 1 ? "" : "s"}`)
+  if (counts.actionItems) parts.push(`${counts.actionItems} action item${counts.actionItems === 1 ? "" : "s"}`)
+  if (counts.questions) parts.push(`${counts.questions} question${counts.questions === 1 ? "" : "s"}`)
+  return parts
+}
+
 function showSuccess(data, workspaceId) {
   const c = data.counts || { decisions: 0, actionItems: 0, questions: 0 }
-  const total = (c.decisions || 0) + (c.actionItems || 0) + (c.questions || 0)
+  const parts = summarize(c)
   let msg
   if (data.extractionError) {
     msg = "Conversation saved. AI extraction failed — you can retry it inside RelayOS."
-  } else if (total === 0) {
-    msg = "Conversation saved. No decisions, action items or questions were found."
+  } else if (parts.length === 0) {
+    msg = "Captured — no decisions, action items or questions found."
   } else {
-    msg = `Found ${c.decisions} decision${c.decisions === 1 ? "" : "s"}, ${c.actionItems} action item${c.actionItems === 1 ? "" : "s"}, and ${c.questions} question${c.questions === 1 ? "" : "s"}.`
+    msg = `Captured — ${parts.join(", ")} found.`
   }
   $("successText").textContent = msg
   $("viewBtn").onclick = () =>
@@ -208,6 +278,9 @@ $("getKeyBtn").addEventListener("click", () => {
   const base = trimBase($("apiBase").value)
   chrome.tabs.create({ url: `${base}/api/user/api-key` })
 })
+
+// "Change" — reveal the picker for a one-off different workspace.
+$("changeWsBtn").addEventListener("click", () => setMode("pick"))
 
 async function disconnect() {
   await chrome.storage.local.remove(["relayApiKey"])

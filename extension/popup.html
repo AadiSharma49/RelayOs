@@ -54,8 +54,17 @@
         <h2 class="title">Capture this conversation</h2>
         <p id="sourceLabel" class="muted"></p>
 
-        <label class="label" for="workspace">Workspace</label>
-        <select id="workspace" class="input"></select>
+        <!-- One-click target (shown once a default workspace is remembered) -->
+        <div id="targetRow" class="target-row hidden">
+          <span class="muted">Saving to <b id="targetName" class="target-name"></b></span>
+          <button id="changeWsBtn" class="link-btn">Change</button>
+        </div>
+
+        <!-- Workspace picker (first capture, or when changing) -->
+        <div id="wsPicker" class="hidden">
+          <label class="label" for="workspace">Workspace</label>
+          <select id="workspace" class="input"></select>
+        </div>
 
         <button id="captureBtn" class="btn btn-primary">Capture conversation</button>
         <button id="disconnectBtn" class="link-btn danger">Disconnect</button>

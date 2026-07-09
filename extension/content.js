@@ -96,4 +96,56 @@
     }
     return false
   })
+
+  // ── Ambient detection ──────────────────────────────────────────────
+  // Signal the background when a substantial conversation is on the page so the
+  // toolbar icon can show a "ready to capture" badge. This ONLY signals — it
+  // never captures anything without an explicit click.
+  function countTurns() {
+    const source = detectSource()
+    let sel = null
+    if (source === "claude")
+      sel = '[data-testid="user-message"], [data-testid="assistant-message"], .font-claude-message'
+    else if (source === "chatgpt") sel = "[data-message-author-role]"
+    else if (source === "gemini") sel = "user-query, model-response"
+    if (!sel) return 0
+    try {
+      return document.querySelectorAll(sel).length
+    } catch (e) {
+      return 0
+    }
+  }
+
+  let lastSignal = null
+  function signalDetection() {
+    const turns = countTurns()
+    const ready = turns >= 2
+    const sig = ready ? "ready" : "none"
+    if (sig === lastSignal) return
+    lastSignal = sig
+    try {
+      chrome.runtime.sendMessage({
+        action: ready ? "conversationDetected" : "conversationCleared",
+        turns,
+      })
+    } catch (e) {
+      /* service worker asleep or context gone — safe to ignore */
+    }
+  }
+
+  // Conversations render asynchronously, so check a few times after load…
+  setTimeout(signalDetection, 800)
+  setTimeout(signalDetection, 2200)
+
+  // …and re-check on in-page navigation / new messages (debounced).
+  let debounce = 0
+  try {
+    const observer = new MutationObserver(() => {
+      clearTimeout(debounce)
+      debounce = setTimeout(signalDetection, 700)
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
+  } catch (e) {
+    /* no body yet — the timed checks above still run */
+  }
 })()
