@@ -83,6 +83,26 @@ body {
   display: none !important;
 }
 
+.target-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 12px;
+}
+.target-row .link-btn {
+  align-self: auto;
+  padding: 2px 4px;
+  color: var(--primary-hover);
+}
+.target-name {
+  color: var(--text);
+  font-weight: 600;
+}
+
 .title {
   font-size: 16px;
   font-weight: 600;
