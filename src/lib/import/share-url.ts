@@ -34,6 +34,8 @@ export interface SharedConversation {
   title: string
   content: string
   messageCount: number
+  /** When the chat happened (ms epoch), if the page exposes it. */
+  occurredAt: number | null
   source: ShareSource
 }
 
@@ -174,10 +176,10 @@ export async function fetchSharedConversation(raw: string): Promise<SharedConver
       422
     )
   }
-  return { ...parsed, source }
+  return { ...parsed, occurredAt: parsed.occurredAt ?? null, source }
 }
 
-type Parsed = { title: string; content: string; messageCount: number }
+type Parsed = { title: string; content: string; messageCount: number; occurredAt?: number | null }
 type Msg = { role: "user" | "assistant"; text: string }
 
 function toTranscript(title: string, msgs: Msg[], label: string): Parsed {
@@ -245,6 +247,20 @@ function decodeTurboStream(flat: unknown[]): unknown {
   return decode(0)
 }
 
+/**
+ * ChatGPT timestamps are epoch seconds. The share object's own create_time is
+ * when the *link* was made, so prefer the earliest message time (when the chat
+ * really started) and only fall back to the share times.
+ */
+function chatGPTTime(rec: Record<string, unknown>): number | null {
+  const toMs = (v: unknown) => (typeof v === "number" && v > 0 ? Math.round(v * 1000) : null)
+  const times = (rec.linear_conversation as { message?: { create_time?: unknown } }[])
+    .map((n) => toMs(n?.message?.create_time))
+    .filter((t): t is number => t !== null)
+  if (times.length) return Math.min(...times)
+  return toMs(rec.create_time) ?? toMs(rec.update_time)
+}
+
 interface ShareNode {
   message?: {
     author?: { role?: string }
@@ -277,7 +293,8 @@ function findChatGPTConversation(root: unknown): Parsed | null {
         ).trim()
         if (text) msgs.push({ role, text })
       }
-      return toTranscript(typeof rec.title === "string" ? rec.title : "", msgs, "ChatGPT")
+      const t = toTranscript(typeof rec.title === "string" ? rec.title : "", msgs, "ChatGPT")
+      return { ...t, occurredAt: chatGPTTime(rec) }
     }
     for (const child of Array.isArray(cur) ? cur : Object.values(rec)) stack.push(child)
   }

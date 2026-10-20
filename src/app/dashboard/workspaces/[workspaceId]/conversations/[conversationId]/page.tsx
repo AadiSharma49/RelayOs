@@ -52,12 +52,10 @@ export default async function ConversationPage({
               <span>in {conversation.workspace.name}</span>
               <span>·</span>
               <span>
-                {new Date(conversation.createdAt).toLocaleDateString(undefined, {
+                {new Date(conversation.occurredAt ?? conversation.createdAt).toLocaleDateString(undefined, {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
                 })}
               </span>
             </div>

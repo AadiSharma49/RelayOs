@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
     let body: {
       workspaceId?: string
-      conversations?: Array<{ title?: string; content?: string }>
+      conversations?: Array<{ title?: string; content?: string; occurredAt?: number | null }>
     }
     try {
       body = await request.json()
@@ -49,6 +49,10 @@ export async function POST(request: Request) {
       .map((c) => ({
         title: (c.title || "Imported conversation").trim().slice(0, 200),
         content: typeof c.content === "string" ? c.content.slice(0, MAX_CONTENT_CHARS).trim() : "",
+        occurredAt:
+          typeof c.occurredAt === "number" && Number.isFinite(c.occurredAt) && c.occurredAt > 0
+            ? new Date(c.occurredAt)
+            : null,
         workspaceId,
         userId,
       }))

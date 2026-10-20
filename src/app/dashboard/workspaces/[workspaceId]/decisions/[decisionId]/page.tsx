@@ -27,7 +27,7 @@ export default async function DecisionDetailPage({
     where: { id: decisionId, userId: user.id, workspaceId },
     include: {
       workspace: { select: { name: true } },
-      conversation: { select: { id: true, title: true } },
+      conversation: { select: { id: true, title: true, occurredAt: true, createdAt: true } },
     },
   })
 
@@ -105,30 +105,22 @@ export default async function DecisionDetailPage({
         <div className="space-y-2 text-sm">
           <div className="flex items-center gap-2">
             <Icons.clock className="h-4 w-4 text-muted-foreground" />
-            <span className="text-muted-foreground">Created:</span>
+            <span className="text-muted-foreground">{decision.conversation?.occurredAt ? "Chat date:" : "Imported:"}</span>
             <span>
-              {new Date(decision.createdAt).toLocaleDateString(undefined, {
+              {new Date(decision.conversation?.occurredAt ?? decision.createdAt).toLocaleDateString(undefined, {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
               })}
             </span>
           </div>
-          <div className="flex items-center gap-2">
-            <Icons.clock className="h-4 w-4 text-muted-foreground" />
-            <span className="text-muted-foreground">Updated:</span>
-            <span>
-              {new Date(decision.updatedAt).toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </span>
-          </div>
+          {decision.conversation?.occurredAt && (
+            <div className="flex items-center gap-2">
+              <Icons.clock className="h-4 w-4 text-muted-foreground" />
+              <span className="text-muted-foreground">Imported:</span>
+              <span>{new Date(decision.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}</span>
+            </div>
+          )}
           <div className="flex items-center gap-2">
             <Icons.fileText className="h-4 w-4 text-muted-foreground" />
             <span className="text-muted-foreground">Source:</span>

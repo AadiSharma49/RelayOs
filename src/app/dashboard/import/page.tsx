@@ -124,7 +124,7 @@ export default function ImportPage() {
     try {
       const payload = conversations
         .filter((_, i) => selected.has(i))
-        .map((c) => ({ title: c.title, content: c.content }))
+        .map((c) => ({ title: c.title, content: c.content, occurredAt: c.createdAt }))
       const res = await fetch("/api/conversations/import-batch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

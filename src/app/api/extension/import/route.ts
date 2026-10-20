@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     return jsonWithCors({ error: "Invalid or missing API key" }, { status: 401 })
   }
 
-  let body: { workspaceId?: string; text?: string; source?: string; title?: string }
+  let body: { workspaceId?: string; text?: string; source?: string; title?: string; occurredAt?: string | number }
   try {
     body = await request.json()
   } catch {
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
   // Always persist the raw conversation first — never lose a capture
   const conversation = await prisma.conversation.create({
-    data: { title, content: text.trim(), workspaceId, userId: user.id },
+    data: { title, content: text.trim(), workspaceId, userId: user.id, occurredAt: parseDate(body.occurredAt) },
   })
 
   const { counts, error: extractionError } = await extractAndSave({
@@ -99,4 +99,11 @@ function deriveTitle(text: string, source?: string): string {
   const clean = firstLine.replace(/^(Human|Assistant|User|You)\s*:\s*/i, "").slice(0, 80)
   const prefix = source ? `[${source}] ` : ""
   return (prefix + clean).slice(0, 100) || "Imported conversation"
+}
+
+/** Accepts an ISO string or epoch ms; returns null if missing/invalid. */
+function parseDate(v: string | number | undefined): Date | null {
+  if (v === undefined || v === null || v === "") return null
+  const d = new Date(v)
+  return Number.isNaN(d.getTime()) ? null : d
 }

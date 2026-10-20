@@ -32,7 +32,7 @@ export default async function WorkspaceDetailPage({
     where: { id: workspaceId, userId: user.id },
     include: {
       conversations: { orderBy: { createdAt: "desc" } },
-      decisions: { orderBy: { createdAt: "desc" }, take: 50 },
+      decisions: { orderBy: { createdAt: "desc" }, take: 50, include: { conversation: { select: { occurredAt: true } } } },
       actionItems: { orderBy: { createdAt: "desc" }, take: 50 },
       questions: { orderBy: { createdAt: "desc" }, take: 50 },
     },
@@ -108,7 +108,7 @@ export default async function WorkspaceDetailPage({
           </span>
         }
       >
-        {workspace.conversations.map((conv: { id: string; title: string; content: string; createdAt: Date }) => {
+        {workspace.conversations.map((conv: { id: string; title: string; content: string; createdAt: Date; occurredAt: Date | null }) => {
           const preview = conv.content.length > 150 ? conv.content.slice(0, 150) + "..." : conv.content
           return (
             <Link key={conv.id} href={`/dashboard/workspaces/${workspace.id}/conversations/${conv.id}`}>
@@ -121,7 +121,7 @@ export default async function WorkspaceDetailPage({
                     <div className="min-w-0">
                       <p className="font-medium truncate">{conv.title}</p>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        {new Date(conv.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}
+                        {new Date(conv.occurredAt ?? conv.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
                       </p>
                     </div>
                   </div>
@@ -136,7 +136,7 @@ export default async function WorkspaceDetailPage({
 
       {/* Decisions */}
       <Section icon={Icons.gitBranch} title="Decisions" count={workspace.decisions.length} emptyMessage="Create a decision to start building your decision memory.">
-        {workspace.decisions.map((dec: { id: string; title: string; summary: string; status: string; confidence: number; createdAt: Date }) => (
+        {workspace.decisions.map((dec: { id: string; title: string; summary: string; status: string; confidence: number; createdAt: Date; conversation?: { occurredAt: Date | null } | null }) => (
           <Link key={dec.id} href={`/dashboard/workspaces/${workspace.id}/decisions/${dec.id}`}>
             <div className="rounded-xl border bg-card p-4 transition-all hover:shadow-md cursor-pointer">
               <div className="flex items-center gap-3">
@@ -150,7 +150,7 @@ export default async function WorkspaceDetailPage({
                       {dec.status}
                     </span>
                     <span className="text-xs text-muted-foreground">{(dec.confidence * 100).toFixed(0)}%</span>
-                    <span className="text-xs text-muted-foreground">{new Date(dec.createdAt).toLocaleDateString()}</span>
+                    <span className="text-xs text-muted-foreground">{new Date(dec.conversation?.occurredAt ?? dec.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
                 <Icons.chevronRight className="h-5 w-5 text-muted-foreground shrink-0" />

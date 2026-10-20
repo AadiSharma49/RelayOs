@@ -46,6 +46,14 @@ export async function POST(request: Request) {
       where: { workspaceId, userId, content },
     })
     if (existing) {
+      // Backfill the real chat date on copies imported before dates were tracked.
+      if (!existing.occurredAt && shared.occurredAt) {
+        existing.occurredAt = new Date(shared.occurredAt)
+        await prisma.conversation.update({
+          where: { id: existing.id },
+          data: { occurredAt: existing.occurredAt },
+        })
+      }
       return NextResponse.json(
         { conversation: existing, duplicate: true, counts, extractionError: null },
         { status: 200 }
@@ -53,7 +61,13 @@ export async function POST(request: Request) {
     }
 
     const conversation = await prisma.conversation.create({
-      data: { title: shared.title.slice(0, 100), content, workspaceId, userId },
+      data: {
+        title: shared.title.slice(0, 100),
+        content,
+        workspaceId,
+        userId,
+        occurredAt: shared.occurredAt ? new Date(shared.occurredAt) : null,
+      },
     })
 
     let extractionError: string | null = null

@@ -48,6 +48,8 @@ model Conversation {
   id          String       @id @default(cuid())
   title       String
   content     String
+  // When the chat actually happened (from the source). null = unknown, fall back to createdAt.
+  occurredAt  DateTime?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   workspaceId String
